@@ -24,7 +24,7 @@ class WishListViewModel @Inject constructor(
     fun onEvent(event: WishListEvent) {
         when(event) {
             is WishListEvent.OnWishClick -> {
-                sendUiEvent(UiEvent.Navigate(Screen.AddEditWishScreen.route + "?wishId=${event.wish.wishText}"))
+                sendUiEvent(UiEvent.Navigate(Screen.AddEditWishScreen.route + "?wishId=${event.wish.id}"))
             }
             is WishListEvent.OnAddWishClick ->{
                 sendUiEvent(UiEvent.Navigate(Screen.AddEditWishScreen.route))
@@ -33,7 +33,7 @@ class WishListViewModel @Inject constructor(
                 viewModelScope.launch {
                     repository.deleteWish(event.wish)
                     sendUiEvent(UiEvent.ShowSnackbar(
-                        message = "Todo deleted"
+                        message = "As you wish"
                     ))
                 }
             }

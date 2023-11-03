@@ -31,9 +31,14 @@ class AddEditWishViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val wishId = savedStateHandle.get<String>("wishId")!!
-        if (wishId != "") {
-            wishText = wishId
+        val wishId = savedStateHandle.get<Int>("wishId")!!
+        if (wishId != -1) {
+            viewModelScope.launch {
+                repository.getWishById(wishId)?.let { wish ->
+                    wishText = wish.wishText
+                    this@AddEditWishViewModel.wish = wish
+                }
+            }
         }
     }
 
@@ -42,24 +47,24 @@ class AddEditWishViewModel @Inject constructor(
             is AddEditWishEvent.OnWishChange -> {
                 wishText = event.title
             }
+            is AddEditWishEvent.OnDeleteWishClick -> {
+                viewModelScope.launch {
+                    repository.deleteWish(event.wish)
+                    sendUiEvent(UiEvent.PopBackStack)
+                }
+            }
             is AddEditWishEvent.OnSaveWishClick -> {
                 viewModelScope.launch {
-                    if (wishText.isBlank()) {
-                        sendUiEvent(
-                            UiEvent.ShowSnackbar(
-                                message = "The task can't be empty"
-                            )
+                    if(wishText != "") {
+                        val newWish = Wish(
+                            wishText = wishText,
+                            isFulfilled = wish?.isFulfilled ?: false,
+                            id = wish?.id
                         )
-                        return@launch
+                        repository.insertWish(
+                            newWish
+                        )
                     }
-                    val newTodo = Wish(
-                        wishText = wishText,
-                        isFulfilled = wish?.isFulfilled ?: false,
-                        id = wish?.id
-                    )
-                    repository.insertWish(
-                        newTodo
-                    )
                     sendUiEvent(UiEvent.PopBackStack)
                 }
             }

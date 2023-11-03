@@ -1,7 +1,6 @@
 package com.stasst.mywishes.data
 
 import androidx.room.*
-import com.stasst.mywishes.data.Wish
 import kotlinx.coroutines.flow.Flow
 
 @Dao
