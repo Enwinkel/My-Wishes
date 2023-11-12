@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">Цілі</string>
     <string name="goal">Ціль</string>
+    <string name="goals">Цілі</string>
+    <string name="completed">Вконані</string>
 </resources>

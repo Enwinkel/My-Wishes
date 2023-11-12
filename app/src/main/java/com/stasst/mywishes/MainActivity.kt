@@ -3,9 +3,9 @@ package com.stasst.mywishes
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             AppTheme {
                 val navController  = rememberNavController()
@@ -53,9 +54,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-data class TabItem(
-    val title: String,
-    val unselectedItem: ImageVector,
-    val selectedItem: ImageVector
-)
